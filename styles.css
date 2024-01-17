@@ -7,7 +7,7 @@
 body {
     padding: 0;
     margin: 0;
-    background: #a6e9ec;
+    background: rgb(166, 233, 236);
 }
 
 .calcu-grid {
@@ -22,11 +22,38 @@ body {
 .calcu-grid > button {
     cursor: pointer;
     font-size: 2rem;
-    border: 1px solid #396061;
+    border: 1px solid rgb(57, 96, 97);
     outline: none;
-    background-color: rgba(95, 158, 160, .50);
+    background-color: rgba(95, 158, 160, .75);
 }
 
 .calcu-grid > button:hover {
-    background-color: rgba(95, 158, 160, .75);
+    background-color: rgba(95, 158, 160, .5);
+}
+
+.span-twice {
+    grid-column: span 2;
+}
+
+.output {
+    grid-column: 1/-1;
+    background-color: rgba(57, 96, 97, .75);
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    flex-direction: column;
+    padding: 10px;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.output .prev-operand {
+    color: rgba(166, 233, 236, .75);
+    font-size: 1.5rem;
+}
+
+.output .current-operand {
+    color: rgb(166, 233, 236);
+    font-size: 2.5rem;
+    text-align: right;
 }
