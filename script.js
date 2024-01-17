@@ -12,7 +12,7 @@ class Calculator {
     }
 
     delete() {
-
+        this.currentOperand = this.currentOperand.toString().slice(0, -1)
     }
 
     appendNumber(number) {
@@ -31,12 +31,55 @@ class Calculator {
     }
 
     compute() {
+        let computation
+        const prev = parseFloat(this.prevOperand)
+        const current = parseFloat(this.currentOperand)
+        if (isNaN(prev) || isNaN(current)) return
+        switch (this.operation) {
+            case '+' :
+                computation = prev + current
+                break
+            case '-' :
+                computation = prev - current
+                break
+            case '*' :
+                computation = prev * current
+                break
+            case '÷' :
+                computation = prev / current
+                break
+            default:
+                return
+        }
+        this.currentOperand = computation
+        this.operation = undefined
+        this.prevOperand = ''
+    }
 
+    getDisplayNumber(number) {
+        const stringNumber = number.toString()
+        const intDigits = parseFloat(stringNumber.split('.')[0])
+        const decimalDigits = stringNumber.split('.')[1]
+        let intDisplay
+        if (isNaN(intDigits)) {
+            intDisplay = ''
+        } else {
+            intDisplay = intDigits.toLocaleString('en', {maximumFractionDigits : 0})
+        }
+        if (decimalDigits != null) {
+            return `${intDisplay}.${decimalDigits}`
+        } else {
+            return intDisplay
+        }
     }
 
     updateDisplay() {
-        this.currentOperandTextElement.innerText = this.currentOperand
-        this.prevOperandTextElement.innerText = this.prevOperand
+        this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand)
+        if (this.operation != null) {
+            this.prevOperandTextElement.innerText = `${this.getDisplayNumber(this.prevOperand)} ${this.operation}`
+        } else {
+            this.prevOperandTextElement.innerText = ''
+        }
     }
 }
 
@@ -67,5 +110,15 @@ operationButtons.forEach(button => {
 
 equalsButton.addEventListener('click', button => {
     calculator.compute()
+    calculator.updateDisplay()
+})
+
+allClearButton.addEventListener('click', button => {
+    calculator.clear()
+    calculator.updateDisplay()
+})
+
+deleteButton.addEventListener('click', button => {
+    calculator.delete()
     calculator.updateDisplay()
 })
